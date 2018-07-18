@@ -1,0 +1,170 @@
+{
+    "@context" : "https://esipfed.org/mixology",
+    "@type" : "cookbook",
+    "name" : "Sycamore Creek @ Sycamore School",
+    "sources" :
+    [
+        {
+            "@type" : "source",
+            "name" : "dfw_influxdb",
+            "url" : "../example/dfw_influxdb.jsonld"
+        }
+    ],
+    "ingredients" :
+    [
+        {
+            "@type" : "influxDBDataset",
+            "source" : "dfw_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "DFW000"},
+            "@as" : "maxbotix_depth_dfw000"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "dfw_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "DFW006"},
+            "@as" : "maxbotix_depth_dfw006"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "dfw_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "DFW025"},
+            "@as" : "maxbotix_depth_dfw025"
+        }
+    ],
+    "recipe" :
+    [
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth_dfw000",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth_dfw000.index", "2016-05-26"] },
+                    { "<" : ["maxbotix_depth_dfw000.index", "2016-08-04"] }
+                ]
+            },
+            "@as" : "maxbotix_depth_dfw000"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth_dfw006",
+            "where" :
+            {
+                "and" :
+                    [
+                        { ">" : ["maxbotix_depth_dfw006.index", "2017-02-15 20:00:00"] },
+                        { "<" : ["maxbotix_depth_dfw006.index", "2017-06-24"] }
+                    ]
+            },
+            "@as" : "maxbotix_depth_dfw006"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth_dfw025",
+            "where" : { ">" : ["maxbotix_depth_dfw025.index", "2017-10-08"] },
+            "@as" : "maxbotix_depth_dfw025"
+        },
+        {
+            "@type" : "join",
+            "select" :
+            [
+                "maxbotix_depth_dfw000",
+                "maxbotix_depth_dfw006",
+                "maxbotix_depth_dfw025"
+            ],
+             "axis" : 0,
+             "join" : "outer",
+             "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "delete",
+            "select" :
+            [
+                "maxbotix_depth_dfw000",
+                "maxbotix_depth_dfw006",
+                "maxbotix_depth_dfw025"
+            ]
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", 500] },
+                    { "<" : ["maxbotix_depth", 9999] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" : { "<" : ["maxbotix_depth", 7500] },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Find instances where central discrete difference is less than threshold",
+            "do" :
+            {
+                "@type" : "absolute",
+                "args" :
+                [
+                    {
+                        "@type" : "fillna",
+                        "args" :
+                        [
+                            {
+                                "@type" : "diff",
+                                "args" :
+                                [
+                                    {
+                                        "@type" : "diff",
+                                        "args" : ["maxbotix_depth"]
+                                    },
+                                    -1
+                                ]
+                            },
+                            0
+                        ]
+                    }
+                ]
+            },
+            "@as" : "maxbotix_depth_diff"
+        },
+        {
+            "@type" : "aggregation",
+            "description" : "Compute spike threshold.",
+            "do" :
+            {
+                "@type" : "percentile",
+                "args" : ["maxbotix_depth_diff", 90]
+            },
+            "@as" : "spike_threshold"
+        },
+        {
+            "@type" : "annotation",
+            "name" : "spikes",
+            "description" : "Spikes detected",
+            "loggedBy" : "automated",
+            "flag" : "🦔",
+            "where" : { ">" : ["maxbotix_depth_diff", "spike_threshold"] },
+            "on" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" : { "<" : ["maxbotix_depth_diff", "spike_threshold"] },
+            "@as" : "maxbotix_depth"
+        }
+    ]
+}
