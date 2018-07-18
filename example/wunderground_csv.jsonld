@@ -1,0 +1,9 @@
+{
+    "filepath_or_buffer" : "wunderground.csv",
+    "sep" : ", ",
+    "delimiter" : null,
+    "header" : "infer",
+    "names" : null,
+    "index_col" : null,
+    "usecols" : null
+}

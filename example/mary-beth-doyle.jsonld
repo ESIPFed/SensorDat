@@ -10,6 +10,14 @@
             "url" : "../example/arb_influxdb.jsonld"
         }
     ],
+    "destinations" :
+    [
+        {
+            "@type" : "destination",
+            "name" : "out_influxdb",
+            "url" : "../example/out_influxdb.jsonld"
+        }
+    ],
     "ingredients" :
     [
         {
@@ -154,6 +162,17 @@
             "select" : "maxbotix_depth",
             "where" : { "<" : ["maxbotix_depth_diff", "spike_threshold"] },
             "@as" : "maxbotix_depth"
+        }
+    ],
+    "servings" :
+    [
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "maxbotix_depth",
+            "field_names" : "value",
+            "global_tags" : {"node_id" : "ARB018"}
         }
     ]
 }

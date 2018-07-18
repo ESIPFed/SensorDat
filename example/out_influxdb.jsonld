@@ -1,0 +1,17 @@
+{
+    "@context" : "https://esipfed.org/influxdb-driver",
+    "@type" : "influxdb",
+    "host" : "localhost",
+    "port" : 8086,
+    "username" : "guest",
+    "password" : "hunter2",
+    "database" : "OUTPUT",
+    "ssl" : false,
+    "verify_ssl" : false,
+    "timeout" : null,
+    "retries" : 3,
+    "use_udp" : false,
+    "udp_port" : 4444,
+    "proxies" : null,
+    "pool_size" : 10
+}

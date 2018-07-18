@@ -155,7 +155,9 @@ class Cookbook():
                              'any' : np.any,
                              'all' : np.all}
 
-        self.drivers = {'influxdb' : influxdb_driver.InfluxDBDriver}
+        self.input_drivers = {'influxdb' : influxdb_driver.InfluxDBInput}
+        self.output_drivers = {'influxdb' : influxdb_driver.InfluxDBOutput}
+
         self.year_re = re.compile('\d\d\d\d')
 
         self.ingredient_types = {}
@@ -335,7 +337,20 @@ class Cookbook():
                 driver_dict = json.load(infile)
             driver_context = driver_dict.pop('@context')
             driver_type = driver_dict.pop('@type')
-            driver = self.drivers[driver_type](driver_dict)
+            driver = self.input_drivers[driver_type](driver_dict)
+            setattr(self, name, driver)
+
+    def set_destinations(self):
+        destinations = self.cookbook['destinations']
+        for destination in destinations:
+            destination_type = destination.pop('@type')
+            name = destination['name']
+            path = destination['url']
+            with open(path) as infile:
+                driver_dict = json.load(infile)
+            driver_context = driver_dict.pop('@context')
+            driver_type = driver_dict.pop('@type')
+            driver = self.output_drivers[driver_type](driver_dict)
             setattr(self, name, driver)
 
     def prepare_ingredients(self):
@@ -354,7 +369,22 @@ class Cookbook():
             recipe_type = recipe.pop('@type')
             self.recipe_types[recipe_type](recipe)
 
+    def prepare_serving(self):
+        servinglist = self.cookbook['servings']
+        for serving in servinglist:
+            driver_type = serving.pop('@type')
+            driver_name = serving.pop('destination')
+            dataclient = getattr(self, driver_name)
+            # This needs to be moved into the driver
+            if isinstance(serving['fields'], list):
+                serving['fields'] = [getattr(self, field) for field in serving['fields']]
+            elif isinstance(serving['fields'], str):
+                serving['fields'] = getattr(self, serving['fields'])
+            data = dataclient.run(serving)
+
     def run(self):
         self.set_datasources()
+        self.set_destinations()
         self.prepare_ingredients()
         self.prepare_recipe()
+        self.prepare_serving()
