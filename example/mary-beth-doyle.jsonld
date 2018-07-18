@@ -105,7 +105,7 @@
             "do" :
             {
                 "@type" : "-",
-                "args" : [2451.1, "maxbotix_depth"]
+                "args" : [2491.1, "maxbotix_depth"]
             },
             "else" :
             {
