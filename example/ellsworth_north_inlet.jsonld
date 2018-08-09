@@ -1,7 +1,7 @@
 {
     "@context" : "https://esipfed.org/mixology",
     "@type" : "cookbook",
-    "name" : "Mary Beth Doyle Wetland",
+    "name" : "Ellsworth North Inlet",
     "sources" :
     [
         {
@@ -25,7 +25,7 @@
             "source" : "arb_influxdb",
             "field" : "value",
             "measurement" : "maxbotix_depth",
-            "tags" : {"node_id" : "ARB018"},
+            "tags" : {"node_id" : "ARB003"},
             "@as" : "maxbotix_depth"
         }
     ],
@@ -47,6 +47,12 @@
         {
             "@type" : "query",
             "select" : "maxbotix_depth",
+            "where" : { "<" : ["maxbotix_depth", 2000] },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
             "where" :
             {
                 "or" :
@@ -54,11 +60,11 @@
                     {
                         "and" :
                         [
-                            { ">" : ["maxbotix_depth.index", "2016-11-20 18:00:00"] },
-                            { "<" : ["maxbotix_depth.index", "2016-12-05 00:00:00"] }
+                            { ">" : ["maxbotix_depth.index", "2016-11-18 00:00:00"] },
+                            { "<" : ["maxbotix_depth.index", "2017-02-10 00:00:00"] }
                         ]
                     },
-                    { ">" : ["maxbotix_depth.index", "2017-06-29 20:00:00"] }
+                    { ">" : ["maxbotix_depth.index", "2017-08-23 00:00:00"] }
                 ]
             },
             "@as" : "maxbotix_depth"
@@ -66,11 +72,11 @@
         {
             "@type" : "transformation",
             "description" : "Convert distance to water depth for first deployment phase.",
-            "where" : { "<" : ["maxbotix_depth.index", "2017-08-01 21:50:00"] },
+            "where" : { "<" : ["maxbotix_depth.index", "2017-02-10 00:00:00"] },
             "do" :
             {
                 "@type" : "-",
-                "args" : [2175.1, "maxbotix_depth"]
+                "args" : [1780, "maxbotix_depth"]
             },
             "else" :
             {
@@ -82,11 +88,11 @@
         {
             "@type" : "transformation",
             "description" : "Convert distance to water depth for second deployment phase.",
-            "where" : { ">" : ["maxbotix_depth.index", "2017-08-02 19:20:00"] },
+            "where" : { ">" : ["maxbotix_depth.index", "2017-08-23 00:00:00"] },
             "do" :
             {
                 "@type" : "-",
-                "args" : [2491.1, "maxbotix_depth"]
+                "args" : [1780, "maxbotix_depth"]
             },
             "else" :
             {
@@ -155,8 +161,8 @@
             "field_names" : "value",
             "global_tags" :
             {
-                "node_id" : "ARB018",
-                "site_name" : "mary_beth_doyle"
+                "node_id" : "ARB003",
+                "site_name" : "ellsworth_north_inlet"
             }
         }
     ]
