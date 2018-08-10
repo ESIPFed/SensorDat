@@ -110,6 +110,21 @@
             "@as" : "outlet_depth"
         },
         {
+            "@type" : "drop",
+            "description" : "Fix diurnal jumps.",
+            "select" : "inlet_depth",
+            "where" :
+            {
+                "and" :
+                    [
+                        { "<" : ["inlet_depth", 1100] },
+                        { ">" : ["inlet_depth.index", "2017-03-28 00:00:00"] },
+                        { "<" : ["inlet_depth.index", "2017-05-08 00:00:00"] }
+                    ]
+            },
+            "@as" : "inlet_depth"
+        },
+        {
             "@type" : "transformation",
             "description" : "Find instances where central discrete difference is less than threshold",
             "do" :

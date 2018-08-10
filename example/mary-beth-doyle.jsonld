@@ -143,6 +143,22 @@
             "select" : "maxbotix_depth",
             "where" : { "<" : ["maxbotix_depth_diff", "spike_threshold"] },
             "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "",
+            "where" : { ">" : ["maxbotix_depth", 100] },
+            "do" :
+            {
+                "@type" : "return",
+                "args" : 1
+            },
+            "else" :
+            {
+                "@type" : "return",
+                "args" : 0
+            },
+            "@as" : "wave"
         }
     ],
     "servings" :
@@ -153,6 +169,8 @@
             "measurement" : "WaterDepth",
             "fields" : "maxbotix_depth",
             "field_names" : "value",
+            "tags" : "wave",
+            "tag_names" : "flag",
             "global_tags" :
             {
                 "node_id" : "ARB018",
