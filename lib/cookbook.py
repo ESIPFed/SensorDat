@@ -1,3 +1,4 @@
+import copy
 import json
 import numpy as np
 import pandas as pd
@@ -169,10 +170,21 @@ class Cookbook():
                              'transformation' : self.parse_transformation,
                              'annotation' : self.parse_annotation,
                              'aggregation' : self.parse_aggregation,
-                             'delete' : self.parse_delete}
+                             'delete' : self.parse_delete,
+                             'repeat' : self.parse_repeat}
 
         with open(cookbook_path) as cookbook:
             self.cookbook = json.load(cookbook)
+
+    def parse_repeat(self, repeat_dict):
+        _iterations = repeat_dict['iterations']
+        _tasks = repeat_dict['tasks']
+        for _ in range(_iterations):
+            for task in _tasks:
+                # TODO: Not ideal
+                task_copy = copy.deepcopy(task)
+                task_type = task_copy.pop('@type')
+                self.recipe_types[task_type](task_copy)
 
     def parse_query(self, query_dict):
         _select = query_dict['select']

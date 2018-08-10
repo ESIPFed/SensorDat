@@ -1,0 +1,227 @@
+{
+    "@context" : "https://esipfed.org/mixology",
+    "@type" : "cookbook",
+    "name" : "Ellsworth Valve",
+    "sources" :
+    [
+        {
+            "@type" : "source",
+            "name" : "arb_influxdb",
+            "url" : "../example/arb_influxdb.jsonld"
+        }
+    ],
+    "destinations" :
+    [
+        {
+            "@type" : "destination",
+            "name" : "out_influxdb",
+            "url" : "../example/out_influxdb.jsonld"
+        }
+    ],
+    "ingredients" :
+    [
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "ARB016"},
+            "@as" : "inlet_depth"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_2_depth",
+            "tags" : {"node_id" : "ARB016"},
+            "@as" : "outlet_depth"
+        }
+    ],
+    "recipe" :
+    [
+        {
+            "@type" : "query",
+            "select" : "inlet_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["inlet_depth", 500] },
+                    { "<" : ["inlet_depth", 9999] }
+                ]
+            },
+            "@as" : "inlet_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "outlet_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["outlet_depth", 500] },
+                    { "<" : ["outlet_depth", 9999] }
+                ]
+            },
+            "@as" : "outlet_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "inlet_depth",
+            "where" : { ">" : ["inlet_depth.index", "2017-08-03 00:00:00"] },
+            "@as" : "inlet_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "outlet_depth",
+            "where" :
+            {
+                "or" :
+                [
+                    {
+                        "and" :
+                        [
+                            { ">" : ["outlet_depth.index", "2017-08-03 19:00:00"] },
+                            { "<" : ["outlet_depth.index", "2017-10-12 00:00:00"] }
+                        ]
+                    },
+                    {
+                        "and" :
+                        [
+                            { ">" : ["outlet_depth.index", "2018-07-19 00:00:00"] },
+                            { "<" : ["outlet_depth.index", "2017-07-31 00:00:00"] }
+                        ]
+                    }
+                ]
+            },
+            "@as" : "outlet_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Convert distance to water depth for inlet.",
+            "do" :
+            {
+                "@type" : "-",
+                "args" : [2410, "inlet_depth"]
+            },
+            "@as" : "inlet_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Convert distance to water depth for outlet.",
+            "do" :
+            {
+                "@type" : "-",
+                "args" : [1560, "outlet_depth"]
+            },
+            "@as" : "outlet_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Find instances where central discrete difference is less than threshold",
+            "do" :
+            {
+                "@type" : "fillna",
+                "args" :
+                [
+                    {
+                        "@type" : "diff",
+                        "args" :
+                        [
+                            {
+                                "@type" : "diff",
+                                "args" : ["inlet_depth"]
+                            },
+                            -1
+                        ]
+                    },
+                    0
+                ]
+            },
+            "@as" : "inlet_depth_diff"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Find instances where central discrete difference is less than threshold",
+            "do" :
+            {
+                "@type" : "fillna",
+                "args" :
+                [
+                    {
+                        "@type" : "diff",
+                        "args" :
+                        [
+                            {
+                                "@type" : "diff",
+                                "args" : ["outlet_depth"]
+                            },
+                            -1
+                        ]
+                    },
+                    0
+                ]
+            },
+            "@as" : "outlet_depth_diff"
+        },
+        {
+            "@type" : "aggregation",
+            "description" : "Compute spike threshold.",
+            "do" :
+            {
+                "@type" : "percentile",
+                "args" : ["inlet_depth_diff", 97]
+            },
+            "@as" : "inlet_spike_threshold"
+        },
+        {
+            "@type" : "aggregation",
+            "description" : "Compute spike threshold.",
+            "do" :
+            {
+                "@type" : "percentile",
+                "args" : ["outlet_depth_diff", 97]
+            },
+            "@as" : "outlet_spike_threshold"
+        },
+        {
+            "@type" : "query",
+            "select" : "inlet_depth",
+            "where" : { "<" : ["inlet_depth_diff", "inlet_spike_threshold"] },
+            "@as" : "inlet_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "outlet_depth",
+            "where" : { "<" : ["outlet_depth_diff", "outlet_spike_threshold"] },
+            "@as" : "outlet_depth"
+        }
+    ],
+    "servings" :
+    [
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "inlet_depth",
+            "field_names" : "inlet.value",
+            "global_tags" :
+            {
+                "node_id" : "ARB016",
+                "site_name" : "county_farm_park_valve"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "outlet_depth",
+            "field_names" : "outlet.value",
+            "global_tags" :
+            {
+                "node_id" : "ARB016",
+                "site_name" : "county_farm_park_valve"
+            }
+        }
+    ]
+}
