@@ -199,16 +199,22 @@ class Cookbook():
         setattr(self, _as, obj)
 
     def parse_transformation(self, transformation_dict):
-        _do = transformation_dict['do']
-        do_result = self.parse_operation(_do, op_type='transformation')
         if 'where' in transformation_dict:
             _where = transformation_dict['where']
             where = self.parse_where(_where)
+            _do = transformation_dict['do']
+            do_result = self.parse_operation(_do, op_type='transformation')
+            if not isinstance(do_result, pd.Series):
+                do_result = pd.Series(do_result, index=where.index)
             if 'else' in transformation_dict:
                 _else = transformation_dict['else']
                 else_result = self.parse_operation(_else, op_type='transformation')
-                obj = do_result.where(cond=where, other=else_result)
+            else:
+                else_result = np.nan
+            obj = do_result.where(cond=where, other=else_result)
         else:
+            _do = transformation_dict['do']
+            do_result = self.parse_operation(_do, op_type='transformation')
             obj = do_result
         _as = transformation_dict['@as']
         setattr(self, _as, obj)
@@ -380,6 +386,11 @@ class Cookbook():
                 serving['fields'] = [getattr(self, field) for field in serving['fields']]
             elif isinstance(serving['fields'], str):
                 serving['fields'] = getattr(self, serving['fields'])
+            if 'tags' in serving:
+                if isinstance(serving['tags'], list):
+                    serving['tags'] = [getattr(self, tag) for tag in serving['tags']]
+                elif isinstance(serving['tags'], str):
+                    serving['tags'] = getattr(self, serving['tags'])
             data = dataclient.run(serving)
 
     def run(self):

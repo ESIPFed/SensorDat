@@ -85,7 +85,7 @@ class InfluxDBOutput():
                 dataframe[int_columns] = dataframe[int_columns] + 'i'
             dataframe[string_columns] = '"' + dataframe[string_columns] + '"'
 
-        dataframe.columns = dataframe.columns.astype(str)
+        dataframe.columns = dataframe.columns.values.astype(str)
         return dataframe
 
     def _convert_series_to_lines(self,
@@ -129,11 +129,14 @@ class InfluxDBOutput():
                  precision_factor).astype(int).astype(str))
 
         # If tag columns exist, make an array of formatted tag keys and values
-        if tags:
+        if tags is not None:
             if isinstance(tags, pd.Series):
                 tag_df = pd.DataFrame(list(zip(tags)), columns=[tag_names])
             elif isinstance(tags, list):
                 tag_df = pd.DataFrame(list(zip(*tags)), columns=tag_names)
+            else:
+                print(type(tags))
+                raise ValueError
             tag_df = self._stringify_dataframe(
                 tag_df, numeric_precision, datatype='tag')
             tags = (',' + (
@@ -159,7 +162,7 @@ class InfluxDBOutput():
         if global_tags:
             global_tags = ','.join(['='.join([tag, global_tags[tag]])
                                     for tag in global_tags])
-            if tags:
+            if tags is not None:
                 tags = tags + ',' + global_tags
             else:
                 tags = ',' + global_tags

@@ -1,0 +1,152 @@
+{
+    "@context" : "https://esipfed.org/mixology",
+    "@type" : "cookbook",
+    "name" : "Holiday Inn Flume",
+    "sources" :
+    [
+        {
+            "@type" : "source",
+            "name" : "arb_influxdb",
+            "url" : "../example/arb_influxdb.jsonld"
+        }
+    ],
+    "destinations" :
+    [
+        {
+            "@type" : "destination",
+            "name" : "out_influxdb",
+            "url" : "../example/out_influxdb.jsonld"
+        }
+    ],
+    "ingredients" :
+    [
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "ARB009"},
+            "@as" : "maxbotix_depth"
+        }
+    ],
+    "recipe" :
+    [
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", 500] },
+                    { "<" : ["maxbotix_depth", 9999] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" : 
+            {
+                "or" :
+                [
+                    {
+                        "and" :
+                            [
+                                { ">" : ["maxbotix_depth.index", "2017-06-18 00:00:00"] },
+                                { "<" : ["maxbotix_depth.index", "2018-01-05 00:00:00"] }
+                            ]
+                    },
+                    { ">" : ["maxbotix_depth.index", "2018-06-08 00:00:00"] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Convert distance to water depth.",
+            "do" :
+            {
+                "@type" : "-",
+                "args" : [2620, "maxbotix_depth"]
+            },
+            "else" :
+            {
+                "@type" : "return",
+                "args" : "maxbotix_depth"
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Find instances where central discrete difference is less than threshold",
+            "do" :
+            {
+                "@type" : "fillna",
+                "args" :
+                [
+                    {
+                        "@type" : "fabs",
+                        "args" :
+                        [
+                            {
+                                "@type" : "diff",
+                                "args" :
+                                [
+                                    {
+                                        "@type" : "diff",
+                                        "args" : ["maxbotix_depth"]
+                                    },
+                                    -1
+                                ]
+                            }
+                        ]
+                    },
+                    0
+                ]
+            },
+            "@as" : "maxbotix_depth_diff"
+        },
+        {
+            "@type" : "aggregation",
+            "description" : "Compute spike threshold.",
+            "do" :
+            {
+                "@type" : "percentile",
+                "args" : ["maxbotix_depth_diff", 97]
+            },
+            "@as" : "spike_threshold"
+        },
+        {
+            "@type" : "annotation",
+            "name" : "spikes",
+            "description" : "Spikes detected",
+            "loggedBy" : "automated",
+            "flag" : "🦔",
+            "where" : { ">" : ["maxbotix_depth_diff", "spike_threshold"] },
+            "on" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" : { "<" : ["maxbotix_depth_diff", "spike_threshold"] },
+            "@as" : "maxbotix_depth"
+        }
+    ],
+    "servings" :
+    [
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "maxbotix_depth",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB009",
+                "site_name" : "holiday_inn_flume"
+            }
+        }
+    ]
+}
