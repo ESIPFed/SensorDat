@@ -1,0 +1,249 @@
+{
+    "@context" : "https://esipfed.org/mixology",
+    "@type" : "cookbook",
+    "name" : "Wildcat Branch @ Stalcup",
+    "sources" :
+    [
+        {
+            "@type" : "source",
+            "name" : "dfw_influxdb",
+            "url" : "../example/dfw_influxdb.jsonld"
+        }
+    ],
+    "destinations" :
+    [
+        {
+            "@type" : "destination",
+            "name" : "out_influxdb",
+            "url" : "../example/out_influxdb.jsonld"
+        }
+    ],
+    "ingredients" :
+    [
+        {
+            "@type" : "influxDBDataset",
+            "source" : "dfw_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "DFW008"},
+            "@as" : "maxbotix_depth_dfw008"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "dfw_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "DFW020"},
+            "@as" : "maxbotix_depth_dfw020"
+        }
+    ],
+    "recipe" :
+    [
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth_dfw008",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth_dfw008.index", "2016-06-07 18:00:00"] },
+                    { "<" : ["maxbotix_depth_dfw008.index", "2017-12-15"] }
+                ]
+            },
+            "@as" : "maxbotix_depth_dfw008"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth_dfw020",
+            "where" : { ">" : ["maxbotix_depth_dfw020.index", "2018-02-02 00:00:00"] },
+            "@as" : "maxbotix_depth_dfw020"
+        },
+        {
+            "@type" : "join",
+            "select" :
+            [
+                "maxbotix_depth_dfw008",
+                "maxbotix_depth_dfw020"
+            ],
+             "axis" : 0,
+             "join" : "outer",
+             "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "delete",
+            "select" :
+            [
+                "maxbotix_depth_dfw008",
+                "maxbotix_depth_dfw020"
+            ]
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", 500] },
+                    { "<" : ["maxbotix_depth", 9999] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" : { "<" : ["maxbotix_depth", 3600] },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "drop",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2018-02-25 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2018-03-12 11:00:00"] }
+                    ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "drop",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth.index", "2018-03-12 11:00:00"] },
+                    { "<" : ["maxbotix_depth.index", "2018-04-06 12:00:00"] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "drop",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth.index", "2017-01-15 18:00:00"] },
+                    { "<" : ["maxbotix_depth.index", "2017-02-01 00:00:00"] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Fix diurnal jumps.",
+            "where" :
+            {
+                "and" :
+                    [
+                        { "<" : ["maxbotix_depth", 2900] },
+                        { ">" : ["maxbotix_depth.index", "2016-06-13 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2016-07-19 00:00:00"] }
+                    ]
+            },
+            "do" :
+            {
+                "@type" : "+",
+                "args" : ["maxbotix_depth", 311]
+            },
+            "else" :
+            {
+                "@type" : "return",
+                "args" : "maxbotix_depth"
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Fix diurnal jumps.",
+            "where" :
+            {
+                "and" :
+                    [
+                        { "<" : ["maxbotix_depth", 3160] },
+                        { ">" : ["maxbotix_depth.index", "2016-07-06 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2016-07-19 00:00:00"] }
+                    ]
+            },
+            "do" :
+            {
+                "@type" : "+",
+                "args" : ["maxbotix_depth", 48]
+            },
+            "else" :
+            {
+                "@type" : "return",
+                "args" : "maxbotix_depth"
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "repeat",
+            "iterations" : 1,
+            "tasks" :
+            [
+                {
+                    "@type" : "transformation",
+                    "description" : "Find instances where central discrete difference is less than threshold",
+                    "do" :
+                    {
+                        "@type" : "fillna",
+                        "args" :
+                        [
+                            {
+                                "@type" : "diff",
+                                "args" :
+                                [
+                                    {
+                                        "@type" : "diff",
+                                        "args" : ["maxbotix_depth"]
+                                    },
+                                    -1
+                                ]
+                            },
+                            0
+                        ]
+                    },
+                    "@as" : "maxbotix_depth_diff"
+                },
+                {
+                    "@type" : "aggregation",
+                    "description" : "Compute spike threshold.",
+                    "do" :
+                    {
+                        "@type" : "percentile",
+                        "args" : ["maxbotix_depth_diff", 1]
+                    },
+                    "@as" : "spike_threshold"
+                },
+                {
+                    "@type" : "query",
+                    "select" : "maxbotix_depth",
+                    "where" : { ">" : ["maxbotix_depth_diff", "spike_threshold"] },
+                    "@as" : "maxbotix_depth"
+                }
+            ]
+        }
+    ],
+    "servings" :
+    [
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "maxbotix_depth",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "DFW008",
+                "site_name" : "wildcat_branch_stalcup"
+            }
+        }
+    ]
+}
