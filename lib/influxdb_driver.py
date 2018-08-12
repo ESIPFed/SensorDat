@@ -125,7 +125,7 @@ class InfluxDBOutput():
 
         # Make array of timestamp ints
         # TODO: Doesn't support multiple fields
-        time = ((fields.index.to_datetime().values.astype(int) /
+        time = ((pd.to_datetime(fields.index).values.astype(int) /
                  precision_factor).astype(int).astype(str))
 
         # If tag columns exist, make an array of formatted tag keys and values
