@@ -145,6 +145,279 @@
             "@as" : "maxbotix_depth"
         },
         {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-08-03 21:30:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-08-05 23:00:00"] }
+                    ]
+                },
+            "@as" : "train_event_0"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-08-15 11:30:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-08-16 20:00:00"] }
+                    ]
+                },
+            "@as" : "train_event_1"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-08-17 09:30:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-08-19 10:00:00"] }
+                    ]
+                },
+            "@as" : "train_event_2"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-08-28 20:30:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-08-31 18:00:00"] }
+                    ]
+                },
+            "@as" : "train_event_3"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-12-18 09:30:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-12-23 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_event_4"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-12-06 10:30:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-12-08 18:00:00"] }
+                    ]
+                },
+            "@as" : "train_event_5"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2018-04-03 11:30:00"] },
+                        { "<" : ["maxbotix_depth.index", "2018-04-08 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_event_6"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2018-04-13 23:30:00"] },
+                        { "<" : ["maxbotix_depth.index", "2018-04-20 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_event_7"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-07-15 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-07-22 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_1"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-07-24 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-08-01 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_2"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-08-05 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-08-15 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_3"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-08-20 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-08-28 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_4"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-08-31 16:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-09-04 12:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_5"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-09-09 18:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-09-25 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_6"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-10-17 08:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-10-21 08:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_7"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-12-01 06:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-12-06 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_8"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-12-09 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2017-12-18 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_9"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2017-12-23 17:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2018-01-10 04:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_10"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2018-01-16 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2018-01-21 10:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_11"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2018-01-27 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2018-02-14 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_12"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+                {
+                    "and" :
+                    [
+                        { ">" : ["maxbotix_depth.index", "2018-03-16 00:00:00"] },
+                        { "<" : ["maxbotix_depth.index", "2018-03-27 00:00:00"] }
+                    ]
+                },
+            "@as" : "train_nonevent_13"
+        },
+        {
             "@type" : "transformation",
             "description" : "",
             "where" : { ">" : ["maxbotix_depth", 100] },
