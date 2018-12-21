@@ -1,0 +1,824 @@
+ReactDOM.render(
+  <h1>hello world</h1>,
+  document.getElementById('root')
+);
+
+
+
+var Schema = {
+
+    "recipe" :
+
+    {
+
+        "description" : "Ordered list of operations.",
+
+        "range_includes" :
+
+        [
+
+            "query",
+
+            "drop",
+
+            "join",
+
+            "transformation",
+
+            "aggregation",
+
+            "annotation",
+
+            "delete",
+
+            "annotation"
+
+        ]
+
+    },
+
+    "query" :
+
+    {
+
+        "description" : "Returns a subset of the data. Non-length preserving.",
+
+        "range_includes" :
+
+        [
+
+            "select",
+
+            "where",
+
+            "as",
+
+            "description"
+
+        ]
+
+    },
+
+    "drop" :
+
+    {
+
+        "description" : "Drops a subset of the data and returns the subset of the data that was not dropped. Non-length preserving.",
+
+        "range_includes" :
+
+        [
+
+            "select",
+
+            "where",
+
+            "as",
+
+            "description"
+
+        ]
+
+    },
+
+    "join" :
+
+    {
+
+        "description" : "Joins two or more data sets along the specified axis. May specify join logic (inner, outer, etc.).",
+
+        "range_includes" :
+
+        [
+
+            "select",
+
+            "join_axis",
+
+            "join_logic",
+
+            "as",
+
+            "description"
+
+        ]
+
+    },
+
+    "transformation" :
+
+    {
+
+        "description" : "Applies a length-preserving transformation (e.g. addition, subtraction, multiplication, exponentiation, fourier transform, etc.).",
+
+        "range_includes" :
+
+        [
+
+            "do_transform",
+
+            "as",
+
+            "description"
+
+        ]
+
+    },
+
+    "aggregation" :
+
+    {
+
+        "description" : "Aggregates data along an axis (e.g. take the sum of the dataset).",
+
+        "range_includes" :
+
+        [
+
+            "do_aggregation",
+
+            "as",
+
+            "description"
+
+        ]
+
+    },
+
+    "delete" :
+
+    {
+
+        "description" : "Removes selected object from memory",
+
+        "range_includes" :
+
+        [
+
+            "select",
+
+            "description"
+
+        ]
+
+    },
+
+    "annotation" :
+
+    {
+
+        "description" : "Annotates data at the index specified by the where clause.",
+
+        "range_includes" :
+
+        [
+
+            "select",
+
+            "where",
+
+            "as",
+
+            "description"
+
+        ]
+
+    },
+
+    "description" :
+
+    {
+
+        "description" : "Description of operation.",
+
+        "range_includes" :
+
+        [
+
+            "Text"
+
+        ]
+
+    },
+
+    "select" :
+
+    {
+
+        "description" : "Selects dataset from memory.",
+
+        "range_includes" :
+
+        [
+
+            "Text",
+
+            "List"
+
+        ]
+
+    },
+
+    "as" :
+
+    {
+
+        "description" : "Returns result of operation and saves to memory as given name.",
+
+        "range_includes" :
+
+        [
+
+            "Text"
+
+        ]
+
+    },
+
+    "where" :
+
+    {
+
+        "description" : "Generates boolean array based on conditional.",
+
+        "range_includes" :
+
+        [
+
+            "and",
+
+            "or",
+
+            "not",
+
+            "xor",
+
+            "in",
+
+            ">",
+
+            "<",
+
+            ">=",
+
+            "<=",
+
+            "==",
+
+            "!="
+
+        ],
+
+        "_comment" : "Should add ability to pass in arbitrary index."
+
+    },
+
+    "and" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "and",
+
+            "or",
+
+            "not",
+
+            "xor",
+
+            "in",
+
+            ">",
+
+            "<",
+
+            ">=",
+
+            "<=",
+
+            "==",
+
+            "!="
+
+        ]
+
+    },
+
+    "or" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "and",
+
+            "or",
+
+            "not",
+
+            "xor",
+
+            "in",
+
+            ">",
+
+            "<",
+
+            ">=",
+
+            "<=",
+
+            "==",
+
+            "!="
+
+        ]
+
+    },
+
+    "not" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "and",
+
+            "or",
+
+            "not",
+
+            "xor",
+
+            "in",
+
+            ">",
+
+            "<",
+
+            ">=",
+
+            "<=",
+
+            "==",
+
+            "!="
+
+        ]
+
+    },
+
+    "xor" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "and",
+
+            "or",
+
+            "not",
+
+            "xor",
+
+            "in",
+
+            ">",
+
+            "<",
+
+            ">=",
+
+            "<=",
+
+            "==",
+
+            "!="
+
+        ]
+
+    },
+
+    "in" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "List"
+
+        ]
+
+    },
+
+    ">" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "List"
+
+        ]
+
+    },
+
+    "<" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "List"
+
+        ]
+
+    },
+
+    ">=" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "List"
+
+        ]
+
+    },
+
+    "<=" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "List"
+
+        ]
+
+    },
+
+    "==" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "List"
+
+        ]
+
+    },
+
+    "!=" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "List"
+
+        ]
+
+    },
+
+    "join_axis" :
+
+    {
+
+        "description" : "One of: 0, 1",
+
+        "range_includes" :
+
+        [
+
+            "Integer"
+
+        ]
+
+    },
+
+    "join_logic" :
+
+    {
+
+        "description" : "One of: inner, outer.",
+
+        "range_includes" :
+
+        [
+
+            "Text"
+
+        ]
+
+    },
+
+    "args" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "List"
+
+        ]
+
+    },
+
+    "do_transform" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "return",
+
+            "+",
+
+            "-",
+
+            "*",
+
+            "/",
+
+            "//",
+
+            "%",
+
+            "**",
+
+            "add",
+
+            "subtract",
+
+            "multiply",
+
+            "divide",
+
+            "logaddexp",
+
+            "logaddexp2",
+
+            "true_divide",
+
+            "floor_divide",
+
+            "negative",
+
+            "positive",
+
+            "power",
+
+            "remainder",
+
+            "mod",
+
+            "fmod",
+
+            "divmod",
+
+            "absolute",
+
+            "fabs",
+
+            "rint",
+
+            "sign",
+
+            "heaviside",
+
+            "conj",
+
+            "exp",
+
+            "exp2",
+
+            "log",
+
+            "log2",
+
+            "log10",
+
+            "expm1",
+
+            "log1p",
+
+            "sqrt",
+
+            "square",
+
+            "cbrt",
+
+            "reciprocal",
+
+            "sin",
+
+            "cos",
+
+            "tan",
+
+            "arcsin",
+
+            "arccos",
+
+            "arctan",
+
+            "arctan2",
+
+            "hypot",
+
+            "sinh",
+
+            "cosh",
+
+            "tanh",
+
+            "arcsinh",
+
+            "arccosh",
+
+            "arctanh",
+
+            "deg2rad",
+
+            "rad2deg",
+
+            "bitwise_and",
+
+            "bitwise_or",
+
+            "bitwise_xor",
+
+            "invert",
+
+            "left_shift",
+
+            "right_shift",
+
+            "greater",
+
+            "greater_equal",
+
+            "less",
+
+            "less_equal",
+
+            "not_equal",
+
+            "equal",
+
+            "logical_and",
+
+            "logical_or",
+
+            "logical_xor",
+
+            "logical_not",
+
+            "maximum",
+
+            "minimum",
+
+            "fmax",
+
+            "fmin",
+
+            "isfinite",
+
+            "isinf",
+
+            "isnan",
+
+            "isnat",
+
+            "signbit",
+
+            "copysign",
+
+            "nextafter",
+
+            "spacing",
+
+            "modf",
+
+            "ldexp",
+
+            "frexp",
+
+            "fmod",
+
+            "floor",
+
+            "ceil",
+
+            "trunc",
+
+            "diff",
+
+            "replace",
+
+            "constant",
+
+            "fillna",
+
+            "mask",
+
+            "where"
+
+        ]
+
+    },
+
+    "do_aggregation" :
+
+    {
+
+        "range_includes" :
+
+        [
+
+            "sum",
+
+            "prod",
+
+            "mean",
+
+            "std",
+
+            "var",
+
+            "min",
+
+            "max",
+
+            "argmin",
+
+            "argmax",
+
+            "median",
+
+            "percentile",
+
+            "nansum",
+
+            "nanprod",
+
+            "nanmean",
+
+            "nanstd",
+
+            "nanvar",
+
+            "nanmin",
+
+            "nanmax",
+
+            "nanargmin",
+
+            "nanargmax",
+
+            "nanmedian",
+
+            "nanpercentile",
+
+            "any",
+
+            "all"
+
+        ]
+
+    }
+
+}
+
+console.log(Schema.recipe)
