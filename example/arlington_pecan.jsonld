@@ -1,7 +1,7 @@
 {
     "@context" : "https://esipfed.org/mixology",
     "@type" : "cookbook",
-    "name" : "Sycamore Creek @ Vickery",
+    "name" : "Arlington @ Pecan",
     "sources" :
     [
         {
@@ -25,70 +25,73 @@
             "source" : "dfw_influxdb",
             "field" : "value",
             "measurement" : "maxbotix_depth",
-            "tags" : {"node_id" : "DFW006"},
-            "@as" : "maxbotix_depth_dfw006"
+            "tags" : {"node_id" : "DFW032"},
+            "@as" : "maxbotix_depth_dfw032"
         },
         {
             "@type" : "influxDBDataset",
             "source" : "dfw_influxdb",
             "field" : "value",
             "measurement" : "maxbotix_depth",
-            "tags" : {"node_id" : "DFW016"},
-            "@as" : "maxbotix_depth_dfw016"
+            "tags" : {"node_id" : "DFW033"},
+            "@as" : "maxbotix_depth_dfw033"
         },
         {
             "@type" : "influxDBDataset",
             "source" : "dfw_influxdb",
             "field" : "value",
             "measurement" : "maxbotix_depth",
-            "tags" : {"node_id" : "DFW044"},
-            "@as" : "maxbotix_depth_dfw044"
+            "tags" : {"node_id" : "DFW034"},
+            "@as" : "maxbotix_depth_dfw034"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "dfw_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "DFW035"},
+            "@as" : "maxbotix_depth_dfw035"
         }
     ],
     "recipe" :
     [
         {
             "@type" : "query",
-            "select" : "maxbotix_depth_dfw006",
+            "select" : "maxbotix_depth_dfw032",
             "where" :
             {
                 "and" :
                 [
-                    { ">" : ["maxbotix_depth_dfw006.index", "2016-05-26 04:00:00"] },
-                    { "<" : ["maxbotix_depth_dfw006.index", "2016-08-05"] }
+                    { ">" : ["maxbotix_depth_dfw032.index", "2017-06-22"] },
+                    { "<" : ["maxbotix_depth_dfw032.index", "2017-07-24"] }
                 ]
             },
-            "@as" : "maxbotix_depth_dfw006"
+            "@as" : "maxbotix_depth_dfw032"
         },
         {
             "@type" : "query",
-            "select" : "maxbotix_depth_dfw016",
-            "where" :
-            {
-                "and" :
-                    [
-                        { ">" : ["maxbotix_depth_dfw016.index", "2017-02-13 17:00:00"] },
-                        { "<" : ["maxbotix_depth_dfw016.index", "2018-02-14 00:00:00"] }
-                    ]
-            },
-            "@as" : "maxbotix_depth_dfw016"
+            "select" : "maxbotix_depth_dfw033",
+            "where" : { ">" : ["maxbotix_depth_dfw033.index", "2017-08-03"] },
+            "@as" : "maxbotix_depth_dfw033"
         },
         {
             "@type" : "query",
-            "select" : "maxbotix_depth_dfw044",
-            "where" :
-            {
-                ">" : ["maxbotix_depth_dfw044.index", "2018-10-13 00:00:00"] }
-            },
-            "@as" : "maxbotix_depth_dfw044"
+            "select" : "maxbotix_depth_dfw034",
+            "where" : { ">" : ["maxbotix_depth_dfw034.index", "2018-05-19"] },
+            "@as" : "maxbotix_depth_validation_0"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth_dfw034",
+            "where" : { ">" : ["maxbotix_depth_dfw034.index", "2018-05-19"] },
+            "@as" : "maxbotix_depth_validation_1"
         },
         {
             "@type" : "join",
             "select" :
             [
-                "maxbotix_depth_dfw006",
-                "maxbotix_depth_dfw016",
-                "maxbotix_depth_dfw044"
+                "maxbotix_depth_dfw032",
+                "maxbotix_depth_dfw033"
             ],
              "axis" : 0,
              "join" : "outer",
@@ -98,9 +101,8 @@
             "@type" : "delete",
             "select" :
             [
-                "maxbotix_depth_dfw006",
-                "maxbotix_depth_dfw016",
-                "maxbotix_depth_dfw044"
+                "maxbotix_depth_dfw032",
+                "maxbotix_depth_dfw033"
             ]
         },
         {
@@ -117,14 +119,8 @@
             "@as" : "maxbotix_depth"
         },
         {
-            "@type" : "query",
-            "select" : "maxbotix_depth",
-            "where" : { "<" : ["maxbotix_depth", 7200] },
-            "@as" : "maxbotix_depth"
-        },
-        {
             "@type" : "repeat",
-            "iterations" : 3,
+            "iterations" : 1,
             "tasks" :
             [
                 {
@@ -180,8 +176,32 @@
             "field_names" : "value",
             "global_tags" :
             {
-                "node_id" : "DFW006",
-                "site_name" : "sycamore_vickery"
+                "node_id" : "DFW032",
+                "site_name" : "arlington_pecan"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "maxbotix_depth_validation_0",
+            "field_names" : "validation.0.value",
+            "global_tags" :
+            {
+                "node_id" : "DFW032",
+                "site_name" : "arlington_pecan"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "maxbotix_depth_validation_1",
+            "field_names" : "validation.1.value",
+            "global_tags" :
+            {
+                "node_id" : "DFW032",
+                "site_name" : "arlington_pecan"
             }
         }
     ]
