@@ -39,7 +39,7 @@
                 "and" :
                 [
                     { ">" : ["maxbotix_depth.index", "2017-09-19 00:00:00"] },
-                    { "<" : ["maxbotix_depth.index", "2017-10-21 00:00:00"] }
+                    { "<" : ["maxbotix_depth.index", "2018-10-21 00:00:00"] }
                 ]
             },
             "@as" : "maxbotix_depth"
