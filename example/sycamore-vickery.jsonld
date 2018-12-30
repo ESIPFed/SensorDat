@@ -78,7 +78,7 @@
             "select" : "maxbotix_depth_dfw044",
             "where" :
             {
-                ">" : ["maxbotix_depth_dfw044.index", "2018-10-13 00:00:00"] }
+                ">" : ["maxbotix_depth_dfw044.index", "2018-10-13 00:00:00"]
             },
             "@as" : "maxbotix_depth_dfw044"
         },
