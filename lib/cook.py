@@ -124,3 +124,8 @@ print('Prairie Creek @ Bruton')
 prb = Cookbook('../example/prarie-creek-bruton.jsonld')
 prb.run()
 del prb
+
+print('Cottonwood Creek @ Cooks Lane')
+ccc = Cookbook('../example/cottonwood_creek_cooks.jsonld')
+ccc.run()
+del ccc
