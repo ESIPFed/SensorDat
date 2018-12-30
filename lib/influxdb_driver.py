@@ -257,8 +257,13 @@ class InfluxDBOutput():
         points = (measurement + tags + ' ' + fields + ' ' + time).tolist()
         return points
 
-    def write_points(self, line_series):
-        return self.client.write_points(line_series, protocol='line')
+    def chunks(self, l, n):
+        for i in range(0, len(l), n):
+            yield l[i:i + n]
+
+    def write_points(self, line_series, chunksize=10000):
+        for chunk in self.chunks(line_series, chunksize):
+            self.client.write_points(chunk, protocol='line')
 
     def run(self, serving_dict):
         lines = self._convert_series_to_lines(**serving_dict)
