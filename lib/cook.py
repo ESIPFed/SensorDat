@@ -109,3 +109,18 @@ print('Arlington @ Mitchell')
 ar3 = Cookbook('../example/arlington_mitchell.jsonld')
 ar3.run()
 del ar3
+
+print('Bowman Branch @ Mirabella')
+bbm = Cookbook('../example/bowman_branch_mirabella.jsonld')
+bbm.run()
+del bbm
+
+print('Marsalis')
+mar = Cookbook('../example/marsalis.jsonld')
+mar.run()
+del mar
+
+print('Prairie Creek @ Bruton')
+prb = Cookbook('../example/prarie-creek-bruton.jsonld')
+prb.run()
+del prb
