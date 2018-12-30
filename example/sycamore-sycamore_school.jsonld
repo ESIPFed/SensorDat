@@ -120,58 +120,62 @@
             "@as" : "maxbotix_depth"
         },
         {
-            "@type" : "repeat",
-            "iterations" : 4,
-            "tasks" :
-            [
-                {
-                    "@type" : "transformation",
-                    "description" : "Find instances where central discrete difference is less than threshold",
-                    "do" :
-                    {
-                        "@type" : "fabs",
-                        "args" :
-                        [
-                            {
-                                "@type" : "fillna",
-                                "args" :
-                                [
-                                    {
-                                        "@type" : "diff",
-                                        "args" :
-                                        [
-                                            {
-                                                "@type" : "diff",
-                                                "args" : ["maxbotix_depth"]
-                                            },
-                                            -1
-                                        ]
-                                    },
-                                    0
-                                ]
-                            }
-                        ]
-                    },
-                    "@as" : "maxbotix_depth_diff"
-                },
-                {
-                    "@type" : "aggregation",
-                    "description" : "Compute spike threshold.",
-                    "do" :
-                    {
-                        "@type" : "percentile",
-                        "args" : ["maxbotix_depth_diff", 99]
-                    },
-                    "@as" : "spike_threshold"
-                },
-                {
-                    "@type" : "query",
-                    "select" : "maxbotix_depth",
-                    "where" : { "<" : ["maxbotix_depth_diff", "spike_threshold"] },
-                    "@as" : "maxbotix_depth"
-                }
-            ]
+            "@type" : "transformation",
+            "do" :
+            {
+                "@type" : "return",
+                "args" : ["maxbotix_depth"]
+            },
+            "@as" : "maxbotix_depth_test"
+        },
+        {
+            "@type" : "rolling",
+            "select" : "maxbotix_depth",
+            "window" : 50,
+            "aggregation" : "median",
+            "@as" : "maxbotix_median"
+        },
+        {
+            "@type" : "transformation",
+            "do" :
+            {
+                "@type" : "fillna",
+                "args" : ["maxbotix_median", 7000]
+            },
+            "@as" : "maxbotix_median"
+        },
+        {
+            "@type" : "transformation",
+            "do" :
+            {
+                "@type" : "-",
+                "args" : ["maxbotix_median", "maxbotix_depth"]
+            },
+            "@as" : "maxbotix_diff"
+        },
+        {
+            "@type" : "aggregation",
+            "description" : "Compute spike threshold.",
+            "do" :
+            {
+                "@type" : "percentile",
+                "args" : ["maxbotix_diff", 95]
+            },
+            "@as" : "spike_threshold"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" : { "<" : ["maxbotix_diff", "spike_threshold"] },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" : { ">" : ["maxbotix_diff", "spike_threshold"] },
+            "@as" : "outliers"
         }
+
     ],
     "servings" :
     [

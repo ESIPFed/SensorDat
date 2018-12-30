@@ -171,7 +171,8 @@ class Cookbook():
                              'annotation' : self.parse_annotation,
                              'aggregation' : self.parse_aggregation,
                              'delete' : self.parse_delete,
-                             'repeat' : self.parse_repeat}
+                             'repeat' : self.parse_repeat,
+                             'rolling' : self.parse_rolling}
 
         with open(cookbook_path) as cookbook:
             self.cookbook = json.load(cookbook)
@@ -266,6 +267,15 @@ class Cookbook():
         _do = aggregation_dict['do']
         obj = self.parse_operation(_do, op_type='aggregation')
         _as = aggregation_dict['@as']
+        setattr(self, _as, obj)
+
+    def parse_rolling(self, rolling_dict):
+        _agg = rolling_dict.pop('aggregation')
+        _as = rolling_dict.pop('@as')
+        _select = rolling_dict.pop('select')
+        select = self.parse_datasource(_select)
+        roller = select.rolling(**rolling_dict)
+        obj = getattr(roller, _agg)()
         setattr(self, _as, obj)
 
     def parse_where(self, where_dict):
@@ -393,7 +403,7 @@ class Cookbook():
             driver_type = serving.pop('@type')
             driver_name = serving.pop('destination')
             dataclient = getattr(self, driver_name)
-            # This needs to be moved into the driver
+            # TODO: This needs to be moved into the driver
             if isinstance(serving['fields'], list):
                 serving['fields'] = [getattr(self, field) for field in serving['fields']]
             elif isinstance(serving['fields'], str):
