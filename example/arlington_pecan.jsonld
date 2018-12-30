@@ -77,13 +77,13 @@
         {
             "@type" : "query",
             "select" : "maxbotix_depth_dfw034",
-            "where" : { ">" : ["maxbotix_depth_dfw034.index", "2018-05-19"] },
+            "where" : { ">" : ["maxbotix_depth_dfw034.index", "2018-05-24 20:00:00"] },
             "@as" : "maxbotix_depth_validation_0"
         },
         {
             "@type" : "query",
-            "select" : "maxbotix_depth_dfw034",
-            "where" : { ">" : ["maxbotix_depth_dfw034.index", "2018-05-19"] },
+            "select" : "maxbotix_depth_dfw035",
+            "where" : { ">" : ["maxbotix_depth_dfw035.index", "2018-05-24 20:00:00"] },
             "@as" : "maxbotix_depth_validation_1"
         },
         {
