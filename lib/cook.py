@@ -100,32 +100,62 @@ mary = Cookbook('../example/south_marys_creek_lost_creek.jsonld')
 mary.run()
 del mary
 
-print('Arlington @ Pecan')
+print('Arlington @ Pecan...')
 ar1 = Cookbook('../example/arlington_pecan.jsonld')
 ar1.run()
 del ar1
 
-print('Arlington @ Mitchell')
+print('Arlington @ Mitchell...')
 ar3 = Cookbook('../example/arlington_mitchell.jsonld')
 ar3.run()
 del ar3
 
-print('Bowman Branch @ Mirabella')
+print('Bowman Branch @ Mirabella...')
 bbm = Cookbook('../example/bowman_branch_mirabella.jsonld')
 bbm.run()
 del bbm
 
-print('Marsalis')
+print('Marsalis...')
 mar = Cookbook('../example/marsalis.jsonld')
 mar.run()
 del mar
 
-print('Prairie Creek @ Bruton')
+print('Prairie Creek @ Bruton...')
 prb = Cookbook('../example/prarie-creek-bruton.jsonld')
 prb.run()
 del prb
 
-print('Cottonwood Creek @ Cooks Lane')
+print('Cottonwood Creek @ Cooks Lane...')
 ccc = Cookbook('../example/cottonwood_creek_cooks.jsonld')
 ccc.run()
 del ccc
+
+print('Ballpark...')
+ball = Cookbook('../example/ballpark.jsonld')
+ball.run()
+del ball
+
+print('Buckner...')
+buck = Cookbook('../example/buckner.jsonld')
+buck.run()
+del buck
+
+print('Forest Lane East...')
+fle = Cookbook('../example/forest_lane_east.jsonld')
+fle.run()
+del fle
+
+print('Johnson Creek @ Duncan Perry...')
+jcdp = Cookbook('../example/johnson_creek_duncan_perry.jsonld')
+jcdp.run()
+del jcdp
+
+print('Lake June...')
+ljun = Cookbook('../example/lake_june.jsonld')
+ljun.run()
+del ljun
+
+print('White Rock Creek @ Royal...')
+wrc = Cookbook('../example/white_rock_creek_royal.jsonld')
+wrc.run()
+del wrc

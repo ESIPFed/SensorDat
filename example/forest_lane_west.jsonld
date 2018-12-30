@@ -1,0 +1,119 @@
+{
+    "@context" : "https://esipfed.org/mixology",
+    "@type" : "cookbook",
+    "name" : "Forest Lane West",
+    "sources" :
+    [
+        {
+            "@type" : "source",
+            "name" : "dfw_influxdb",
+            "url" : "../example/dfw_influxdb.jsonld"
+        }
+    ],
+    "destinations" :
+    [
+        {
+            "@type" : "destination",
+            "name" : "out_influxdb",
+            "url" : "../example/out_influxdb.jsonld"
+        }
+    ],
+    "ingredients" :
+    [
+        {
+            "@type" : "influxDBDataset",
+            "source" : "dfw_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "DFW022"},
+            "@as" : "maxbotix_depth"
+        }
+    ],
+    "recipe" :
+    [
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                ">" : ["maxbotix_depth.index", "2018-07-18 00:00:00"]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", 500] },
+                    { "<" : ["maxbotix_depth", 9999] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "repeat",
+            "iterations" : 3,
+            "tasks" :
+            [
+                {
+                    "@type" : "transformation",
+                    "description" : "Find instances where central discrete difference is less than threshold",
+                    "do" :
+                    {
+                        "@type" : "fillna",
+                        "args" :
+                        [
+                            {
+                                "@type" : "diff",
+                                "args" :
+                                [
+                                    {
+                                        "@type" : "diff",
+                                        "args" : ["maxbotix_depth"]
+                                    },
+                                    -1
+                                ]
+                            },
+                            0
+                        ]
+                    },
+                    "@as" : "maxbotix_depth_diff"
+                },
+                {
+                    "@type" : "aggregation",
+                    "description" : "Compute spike threshold.",
+                    "do" :
+                    {
+                        "@type" : "percentile",
+                        "args" : ["maxbotix_depth_diff", 0.5]
+                    },
+                    "@as" : "spike_threshold"
+                },
+                {
+                    "@type" : "query",
+                    "select" : "maxbotix_depth",
+                    "where" : { ">" : ["maxbotix_depth_diff", "spike_threshold"] },
+                    "@as" : "maxbotix_depth"
+                }
+            ]
+        }
+    ],
+    "servings" :
+    [
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "maxbotix_depth",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "DFW022",
+                "site_name" : "forest_lane_west"
+            }
+        }
+    ]
+}
