@@ -58,6 +58,12 @@
             "@as" : "maxbotix_depth"
         },
         {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" : { ">" : ["maxbotix_depth", 2000] },
+             "@as" : "maxbotix_depth"
+        },
+        {
             "@type" : "repeat",
             "iterations" : 3,
             "tasks" :
