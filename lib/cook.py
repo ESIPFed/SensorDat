@@ -170,6 +170,11 @@ arn = Cookbook('../example/arlington_north.jsonld')
 arn.run()
 del arn
 
+print('Arlington West...')
+arw = Cookbook('../example/arlington_west.jsonld')
+arw.run()
+del arw
+
 print('Turtle Creek @ Blackburn...')
 tcb = Cookbook('../example/turtle_creek_blackburn.jsonld')
 tcb.run()
