@@ -47,6 +47,19 @@
         {
             "@type" : "query",
             "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", 1000] },
+                    { "<" : ["maxbotix_depth", 2000] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
             "where" : { ">" : ["maxbotix_depth.index", "2017-09-15 00:00:00"] },
             "@as" : "maxbotix_depth"
         },
