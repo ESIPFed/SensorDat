@@ -54,8 +54,8 @@
             {
                 "and" :
                 [
-                    { ">" : ["maxbotix_depth", 0] },
-                    { "<" : ["maxbotix_depth", 100] }
+                    { ">" : ["soil_dielec", 0] },
+                    { "<" : ["soil_dielec", 100] }
                 ]
             },
             "@as" : "soil_dielec"
@@ -67,8 +67,8 @@
             {
                 "and" :
                 [
-                    { ">" : ["maxbotix_depth", 0] },
-                    { "<" : ["maxbotix_depth", 1000] }
+                    { ">" : ["soil_conduct", 0] },
+                    { "<" : ["soil_conduct", 1000] }
                 ]
             },
             "@as" : "soil_conduct"
@@ -80,8 +80,8 @@
             {
                 "and" :
                 [
-                    { ">" : ["maxbotix_depth", -50] },
-                    { "<" : ["maxbotix_depth", 80] }
+                    { ">" : ["soil_temp", -50] },
+                    { "<" : ["soil_temp", 80] }
                 ]
             },
             "@as" : "soil_temp"
