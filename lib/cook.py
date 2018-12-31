@@ -145,6 +145,11 @@ fle = Cookbook('../example/forest_lane_east.jsonld')
 fle.run()
 del fle
 
+print('Forest Lane West...')
+flw = Cookbook('../example/forest_lane_west.jsonld')
+flw.run()
+del flw
+
 print('Johnson Creek @ Duncan Perry...')
 jcdp = Cookbook('../example/johnson_creek_duncan_perry.jsonld')
 jcdp.run()
@@ -159,3 +164,13 @@ print('White Rock Creek @ Royal...')
 wrc = Cookbook('../example/white_rock_creek_royal.jsonld')
 wrc.run()
 del wrc
+
+print('Arlington North...')
+arn = Cookbook('../example/arlington_north.jsonld')
+arn.run()
+del arn
+
+print('Turtle Creek @ Blackburn...')
+tcb = Cookbook('../example/turtle_creek_blackburn.jsonld')
+tcb.run()
+del tcb
