@@ -1,0 +1,129 @@
+{
+    "@context" : "https://esipfed.org/mixology",
+    "@type" : "cookbook",
+    "name" : "Herbarium",
+    "sources" :
+    [
+        {
+            "@type" : "source",
+            "name" : "arb_influxdb",
+            "url" : "../example/arb_influxdb.jsonld"
+        }
+    ],
+    "destinations" :
+    [
+        {
+            "@type" : "destination",
+            "name" : "out_influxdb",
+            "url" : "../example/out_influxdb.jsonld"
+        }
+    ],
+    "ingredients" :
+    [
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "decagon_soil_dielec",
+            "tags" : {"node_id" : "ARB007"},
+            "@as" : "soil_dielec"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "decagon_soil_conduct",
+            "tags" : {"node_id" : "ARB007"},
+            "@as" : "soil_conduct"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "decagon_soil_temp",
+            "tags" : {"node_id" : "ARB007"},
+            "@as" : "soil_temp"
+        }
+    ],
+    "recipe" :
+    [
+        {
+            "@type" : "query",
+            "select" : "soil_dielec",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", 0] },
+                    { "<" : ["maxbotix_depth", 100] }
+                ]
+            },
+            "@as" : "soil_dielec"
+        },
+        {
+            "@type" : "query",
+            "select" : "soil_conduct",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", 0] },
+                    { "<" : ["maxbotix_depth", 1000] }
+                ]
+            },
+            "@as" : "soil_conduct"
+        },
+        {
+            "@type" : "query",
+            "select" : "soil_temp",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", -50] },
+                    { "<" : ["maxbotix_depth", 80] }
+                ]
+            },
+            "@as" : "soil_temp"
+        }
+    ],
+    "servings" :
+    [
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "SoilDielectricConstant",
+            "fields" : "soil_dielec",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB007",
+                "site_name" : "herbarium"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "SoilConductivity",
+            "fields" : "soil_conduct",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB007",
+                "site_name" : "herbarium"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "SoilTemperature",
+            "fields" : "soil_temp",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB007",
+                "site_name" : "herbarium"
+            }
+        }
+    ]
+}

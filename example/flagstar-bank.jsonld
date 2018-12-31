@@ -90,7 +90,48 @@
                         "and" :
                         [
                             { ">" : ["maxbotix_depth", 400] },
-                            { ">" : ["maxbotix_depth.index", "2018-08-02 00:00:00"] }
+                            { ">" : ["maxbotix_depth.index", "2018-08-02 00:00:00"] },
+                            { "<" : ["maxbotix_depth.index", "2018-09-01 00:00:00"] }
+                        ]
+                    },
+                    {
+                        "and" :
+                        [
+                            { ">" : ["maxbotix_depth", 400] },
+                            { ">" : ["maxbotix_depth.index", "2018-09-02 11:00:00"] },
+                            { "<" : ["maxbotix_depth.index", "2018-09-03 03:00:00"] }
+                        ]
+                    },
+                    {
+                        "and" :
+                        [
+                            { ">" : ["maxbotix_depth", 400] },
+                            { ">" : ["maxbotix_depth.index", "2018-09-04 14:00:00"] },
+                            { "<" : ["maxbotix_depth.index", "2018-09-06 00:00:00"] }
+                        ]
+                    },
+                    {
+                        "and" :
+                        [
+                            { ">" : ["maxbotix_depth", 400] },
+                            { ">" : ["maxbotix_depth.index", "2018-09-11 00:00:00"] },
+                            { "<" : ["maxbotix_depth.index", "2018-09-28 00:00:00"] }
+                        ]
+                    },
+                    {
+                        "and" :
+                        [
+                            { ">" : ["maxbotix_depth", 400] },
+                            { ">" : ["maxbotix_depth.index", "2018-09-11 00:00:00"] },
+                            { "<" : ["maxbotix_depth.index", "2018-10-05 00:00:00"] }
+                        ]
+                    },
+                    {
+                        "and" :
+                        [
+                            { ">" : ["maxbotix_depth", 400] },
+                            { ">" : ["maxbotix_depth.index", "2018-10-08 12:00:00"] },
+                            { "<" : ["maxbotix_depth.index", "2018-10-11 00:00:00"] }
                         ]
                     }
                 ]
