@@ -179,3 +179,48 @@ print('Turtle Creek @ Blackburn...')
 tcb = Cookbook('../example/turtle_creek_blackburn.jsonld')
 tcb.run()
 del tcb
+
+print('Churchill Downs North...')
+cdn = Cookbook('../example/churchill-downs-north.jsonld')
+cdn.run()
+del cdn
+
+print('Horseshoe Lake...')
+hl = Cookbook('../example/horseshoe_lake.jsonld')
+hl.run()
+del hl
+
+print('Huron River @ Forest Ave...')
+hrf = Cookbook('../example/huron_river_forest_ave.jsonld')
+hrf.run()
+del hrf
+
+print('Huron River @ Huron River Dr...')
+hrhr = Cookbook('../example/huron_river_huron_river.jsonld')
+hrhr.run()
+del hrhr
+
+print('Huron River @ Maiden Lane...')
+hrml = Cookbook('../example/huron_river_maiden_lane.jsonld')
+hrml.run()
+del hrml
+
+print('Huron River @ Wagner...')
+hrw = Cookbook('../example/huron_river_wagner.jsonld')
+hrw.run()
+del hrw
+
+print('Ice Cube...')
+ic = Cookbook('../example/ice_cube.jsonld')
+ic.run()
+del ic
+
+print('Oxbow Lake...')
+ol = Cookbook('../example/oxbow_lake.jsonld')
+ol.run()
+del ol
+
+print('South Commerce Lake...')
+scl = Cookbook('../example/south_commerce_lake.jsonld')
+scl.run()
+del scl
