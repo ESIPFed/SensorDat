@@ -224,3 +224,18 @@ print('South Commerce Lake...')
 scl = Cookbook('../example/south_commerce_lake.jsonld')
 scl.run()
 del scl
+
+print('Michigan Aero...')
+ma = Cookbook('../example/michigan-aero.jsonld')
+ma.run()
+del ma
+
+print('Zingermans Roadhouse...')
+zr = Cookbook('../example/zingermans_roadhouse.jsonld')
+zr.run()
+del zr
+
+print('Herbarium...')
+herb = Cookbook('../example/herbarium.jsonld')
+herb.run()
+del herb

@@ -82,6 +82,14 @@
                     "and" :
                         [
                             { ">" : ["maxbotix_depth", 400] },
+                            { ">" : ["maxbotix_depth.index", "2018-06-16 00:00:00"] },
+                            { "<" : ["maxbotix_depth.index", "2018-07-08 00:00:00"] }
+                        ]
+                    },
+                    {
+                    "and" :
+                        [
+                            { ">" : ["maxbotix_depth", 400] },
                             { ">" : ["maxbotix_depth.index", "2018-07-08 00:00:00"] },
                             { "<" : ["maxbotix_depth.index", "2018-07-31 00:00:00"] }
                         ]
@@ -91,7 +99,7 @@
                         [
                             { ">" : ["maxbotix_depth", 400] },
                             { ">" : ["maxbotix_depth.index", "2018-08-02 00:00:00"] },
-                            { "<" : ["maxbotix_depth.index", "2018-09-01 00:00:00"] }
+                            { "<" : ["maxbotix_depth.index", "2018-09-01 19:32:00"] }
                         ]
                     },
                     {
