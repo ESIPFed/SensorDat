@@ -124,6 +124,47 @@
                     "@as" : "maxbotix_depth"
                 }
             ]
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Convert depth from mm to ft.",
+            "do" :
+            {
+                "@type" : "/",
+                "args" : ["maxbotix_depth", 304.8]
+            },
+            "@as" : "maxbotix_depth_ft"
+        },
+        {
+            "@type" : "transformation",
+            "description" : "Convert depth to flow",
+            "do" :
+            {
+                "@type" : "*",
+                "args" :
+                [
+                    0.0283168,
+                    {
+                        "@type" : "*",
+                        "args" :
+                        [
+                            4.8546,
+                            {
+                                "@type" : "**",
+                                "args" :
+                                [
+                                    {
+                                        "@type" : "+",
+                                        "args" : ["maxbotix_depth_ft", 0.46]
+                                    },
+                                    3.1069
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "@as" : "flow_rate_cms"
         }
     ],
     "servings" :
@@ -133,6 +174,18 @@
             "destination" : "out_influxdb",
             "measurement" : "WaterDepth",
             "fields" : "maxbotix_depth",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB012",
+                "site_name" : "north_territorial"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "FlowRate",
+            "fields" : "flow_rate_cms",
             "field_names" : "value",
             "global_tags" :
             {
