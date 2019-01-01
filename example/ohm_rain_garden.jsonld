@@ -1,0 +1,215 @@
+{
+    "@context" : "https://esipfed.org/mixology",
+    "@type" : "cookbook",
+    "name" : "OHM Rain Garden",
+    "sources" :
+    [
+        {
+            "@type" : "source",
+            "name" : "arb_influxdb",
+            "url" : "../example/arb_influxdb.jsonld"
+        }
+    ],
+    "destinations" :
+    [
+        {
+            "@type" : "destination",
+            "name" : "out_influxdb",
+            "url" : "../example/out_influxdb.jsonld"
+        }
+    ],
+    "ingredients" :
+    [
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "decagon_soil_dielec",
+            "tags" : {"node_id" : "ARB004"},
+            "@as" : "soil_dielec"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "decagon_soil_conduct",
+            "tags" : {"node_id" : "ARB004"},
+            "@as" : "soil_conduct"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "decagon_soil_temp",
+            "tags" : {"node_id" : "ARB004"},
+            "@as" : "soil_temp"
+        },
+        {
+            "@type" : "influxDBDataset",
+            "source" : "arb_influxdb",
+            "field" : "value",
+            "measurement" : "maxbotix_depth",
+            "tags" : {"node_id" : "ARB004"},
+            "@as" : "maxbotix_depth"
+        }
+    ],
+    "recipe" :
+    [
+        {
+            "@type" : "query",
+            "select" : "soil_dielec",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["soil_dielec", 0] },
+                    { "<" : ["soil_dielec", 100] }
+                ]
+            },
+            "@as" : "soil_dielec"
+        },
+        {
+            "@type" : "query",
+            "select" : "soil_conduct",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["soil_conduct", 0] },
+                    { "<" : ["soil_conduct", 1000] }
+                ]
+            },
+            "@as" : "soil_conduct"
+        },
+        {
+            "@type" : "query",
+            "select" : "soil_temp",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["soil_temp", -50] },
+                    { "<" : ["soil_temp", 80] }
+                ]
+            },
+            "@as" : "soil_temp"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
+            "where" :
+            {
+                "and" :
+                [
+                    { ">" : ["maxbotix_depth", 500] },
+                    { "<" : ["maxbotix_depth", 9999] }
+                ]
+            },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "repeat",
+            "iterations" : 2,
+            "tasks" :
+            [
+                {
+                    "@type" : "transformation",
+                    "description" : "Find instances where central discrete difference is less than threshold",
+                    "do" :
+                    {
+                        "@type" : "fillna",
+                        "args" :
+                        [
+                            {
+                                "@type" : "fabs",
+                                "args" :
+                                [
+                                    {
+                                        "@type" : "diff",
+                                        "args" :
+                                        [
+                                            {
+                                                "@type" : "diff",
+                                                "args" : ["maxbotix_depth"]
+                                            },
+                                            -1
+                                        ]
+                                    }
+                                ]
+                            },
+                            0
+                        ]
+                    },
+                    "@as" : "maxbotix_depth_diff"
+                },
+                {
+                    "@type" : "aggregation",
+                    "description" : "Compute spike threshold.",
+                    "do" :
+                    {
+                        "@type" : "percentile",
+                        "args" : ["maxbotix_depth_diff", 99]
+                    },
+                    "@as" : "spike_threshold"
+                },
+                {
+                    "@type" : "query",
+                    "select" : "maxbotix_depth",
+                    "where" : { "<" : ["maxbotix_depth_diff", "spike_threshold"] },
+                    "@as" : "maxbotix_depth"
+                }
+            ]
+        }
+    ],
+    "servings" :
+    [
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "SoilDielectricConstant",
+            "fields" : "soil_dielec",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB004",
+                "site_name" : "ohm_rain_garden"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "SoilConductivity",
+            "fields" : "soil_conduct",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB004",
+                "site_name" : "ohm_rain_garden"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "SoilTemperature",
+            "fields" : "soil_temp",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB004",
+                "site_name" : "ohm_rain_garden"
+            }
+        },
+        {
+            "@type" : "influxdb",
+            "destination" : "out_influxdb",
+            "measurement" : "WaterDepth",
+            "fields" : "maxbotix_depth",
+            "field_names" : "value",
+            "global_tags" :
+            {
+                "node_id" : "ARB004",
+                "site_name" : "ohm_rain_garden"
+            }
+        }
+    ]
+}

@@ -64,11 +64,6 @@
                 "@type" : "-",
                 "args" : [2530, "maxbotix_depth"]
             },
-            "else" :
-            {
-                "@type" : "return",
-                "args" : "maxbotix_depth"
-            },
             "@as" : "maxbotix_depth"
         },
         {

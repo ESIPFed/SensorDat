@@ -239,3 +239,48 @@ print('Herbarium...')
 herb = Cookbook('../example/herbarium.jsonld')
 herb.run()
 del herb
+
+print('OHM Rain Garden...')
+ohm = Cookbook('../example/ohm_rain_garden.jsonld')
+ohm.run()
+del ohm
+
+print('Benton Harbor Empire...')
+bhem = Cookbook('../example/benton_harbor_empire.jsonld')
+bhem.run()
+del bhem
+
+print('Benton Harbor Euclid...')
+bheu = Cookbook('../example/benton_harbor_euclid.jsonld')
+bheu.run()
+del bheu
+
+print('Benton Harbor Meadowbrook...')
+bhm = Cookbook('../example/benton_harbor_meadowbrook.jsonld')
+bhm.run()
+del bhm
+
+print('Benton Harbor Napier...')
+bhn = Cookbook('../example/benton_harbor_napier.jsonld')
+bhn.run()
+del bhn
+
+print('Benton Harbor Pearl Grange...')
+bhpg = Cookbook('../example/benton_harbor_pearl_grange.jsonld')
+bhpg.run()
+del bhpg
+
+print('Benton Harbor Pipestone...')
+bhps = Cookbook('../example/benton_harbor_pipestone.jsonld')
+bhps.run()
+del bhps
+
+print('Benton Harbor Water...')
+bhw = Cookbook('../example/benton_harbor_water.jsonld')
+bhw.run()
+del bhw
+
+print('Benton Harbor Yore...')
+bhy = Cookbook('../example/benton_harbor_yore.jsonld')
+bhy.run()
+del bhy
