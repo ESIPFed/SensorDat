@@ -47,6 +47,12 @@
         {
             "@type" : "query",
             "select" : "maxbotix_depth",
+            "where" : { "<" : ["maxbotix_depth", 1000] },
+            "@as" : "maxbotix_depth"
+        },
+        {
+            "@type" : "query",
+            "select" : "maxbotix_depth",
             "where" : { ">" : ["maxbotix_depth.index", "2018-06-03 00:00:00"] },
             "@as" : "maxbotix_depth"
         },
