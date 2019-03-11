@@ -28,5 +28,7 @@ Create a poster for the ESIP Winter Meeting describing lessons learned.
 
 ### Late Winter 2018
 Code wrap up and documentation.
-Complete final report.
+
+## Final Summary:
+We created a CHORDS instance and connected it to the Nevada Climate Change Portal ([NEVCAN](http://sensor.nevada.edu/nccp/Climate%20Monitoring/Network.aspx)) system. A list of data quality [recipes](https://github.com/ESIPFed/SensorDat/tree/master/example) was created in JSON-LD markup. A simulated user interface was then created to describe how these recipies could be integrated through a CHORDS portal in real-time. A [SensorDat presentation](https://esip.figshare.com/articles/SensorDat_Real-time_sensor_testbed_for_improved_provenance_and_data_quality/7594928) was given and a SensorDat poster was presented at the ESIP 2019 Winter Meeting.
 
