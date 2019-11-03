@@ -212,7 +212,7 @@
             "destination" : "out_influxdb",
             "measurement" : "WaterDepth",
             "fields" : "inlet_depth",
-            "field_names" : "inlet.value",
+            "field_names" : "value",
             "global_tags" :
             {
                 "node_id" : "ARB010",
@@ -224,7 +224,7 @@
             "destination" : "out_influxdb",
             "measurement" : "WaterDepth",
             "fields" : "outlet_depth",
-            "field_names" : "outlet.value",
+            "field_names" : "value",
             "global_tags" :
             {
                 "node_id" : "ARB010",
