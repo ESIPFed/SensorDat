@@ -204,11 +204,11 @@
             "destination" : "out_influxdb",
             "measurement" : "WaterDepth",
             "fields" : "inlet_depth",
-            "field_names" : "inlet.value",
+            "field_names" : "value",
             "global_tags" :
             {
                 "node_id" : "ARB016",
-                "site_name" : "county_farm_park_valve"
+                "site_name" : "county_farm_park_valve_inlet"
             }
         },
         {
@@ -216,11 +216,11 @@
             "destination" : "out_influxdb",
             "measurement" : "WaterDepth",
             "fields" : "outlet_depth",
-            "field_names" : "outlet.value",
+            "field_names" : "value",
             "global_tags" :
             {
                 "node_id" : "ARB016",
-                "site_name" : "county_farm_park_valve"
+                "site_name" : "county_farm_park_valve_outlet"
             }
         }
     ]
