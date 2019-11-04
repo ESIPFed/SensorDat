@@ -284,3 +284,105 @@ print('Benton Harbor Yore/home/ubuntu/git/SensorDat.')
 bhy = Cookbook('/home/ubuntu/git/SensorDat/example/benton_harbor_yore.jsonld')
 bhy.run()
 del bhy
+
+### Clinton River nodes
+
+print('Bunny Run Lake')
+brl = Cookbook('/home/ubuntu/git/SensorDat/example/bunny_run_lake.jsonld')
+brl.run()
+del brl
+
+print('Crystal Lake')
+cl = Cookbook('/home/ubuntu/git/SensorDat/example/crystal_lake.jsonld')
+cl.run()
+del cl
+
+print('Dawsons Millpond')
+dm = Cookbook('/home/ubuntu/git/SensorDat/example/dawsons_millpond.jsonld')
+dm.run()
+del dm
+
+print('Dollar Lake')
+dl = Cookbook('/home/ubuntu/git/SensorDat/example/dollar_lake.jsonld')
+dl.run()
+del dl
+
+print('Hamlin Crooks')
+hc = Cookbook('/home/ubuntu/git/SensorDat/example/hamlin_crooks.jsonld')
+hc.run()
+del hc
+
+print('Highland Skipper')
+hs = Cookbook('/home/ubuntu/git/SensorDat/example/highland_skipper.jsonld')
+hs.run()
+del hs
+
+print('Indianwood Lake')
+il = Cookbook('/home/ubuntu/git/SensorDat/example/indianwood_lake.jsonld')
+il.run()
+del il
+
+print('Lake Oakland')
+lo = Cookbook('/home/ubuntu/git/SensorDat/example/lake_oakland.jsonld')
+lo.run()
+del lo
+
+print('Lakeville Lake')
+ll = Cookbook('/home/ubuntu/git/SensorDat/example/lakeville_lake.jsonld')
+ll.run()
+del ll
+
+print('Long Lake')
+longl = Cookbook('/home/ubuntu/git/SensorDat/example/long_lake.jsonld')
+longl.run()
+del longl
+
+print('Loon Lake')
+loonl = Cookbook('/home/ubuntu/git/SensorDat/example/loon_lake.jsonld')
+loonl.run()
+del loonl
+
+print('Oakland County Jail')
+ocj = Cookbook('/home/ubuntu/git/SensorDat/example/oakland_county_jail.jsonld')
+ocj.run()
+del ocj
+
+print('Orchard Lake')
+ol = Cookbook('/home/ubuntu/git/SensorDat/example/orchard_lake.jsonld')
+ol.run()
+del ol
+
+print('Otter Lake')
+otl = Cookbook('/home/ubuntu/git/SensorDat/example/otter_lake.jsonld')
+otl.run()
+del otl
+
+print('Stony Creek')
+sc = Cookbook('/home/ubuntu/git/SensorDat/example/stony_creek.jsonld')
+sc.run()
+del sc
+
+print('Sylvan Lake')
+sl = Cookbook('/home/ubuntu/git/SensorDat/example/sylvan_lake.jsonld')
+sl.run()
+del sl
+
+print('Van Norman Lake')
+vnl = Cookbook('/home/ubuntu/git/SensorDat/example/van_norman_lake.jsonld')
+vnl.run()
+del vnl
+
+print('Watkins Lake')
+wl = Cookbook('/home/ubuntu/git/SensorDat/example/watkins_lake.jsonld')
+wl.run()
+del wl
+
+print('Wau Me Gah Lake')
+wmgl = Cookbook('/home/ubuntu/git/SensorDat/example/wau_me_gah_lake.jsonld')
+wmgl.run()
+del wmgl
+
+print('Williams Lake')
+wl = Cookbook('/home/ubuntu/git/SensorDat/example/williams_lake.jsonld')
+wl.run()
+del wl
