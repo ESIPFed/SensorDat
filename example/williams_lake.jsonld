@@ -1,7 +1,7 @@
 {
     "@context" : "https://esipfed.org/mixology",
     "@type" : "cookbook",
-    "name" : "Long Lake",
+    "name" : "Williams Lake",
     "sources" :
     [
         {
