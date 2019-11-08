@@ -386,3 +386,35 @@ print('Williams Lake')
 wl = Cookbook('/home/ubuntu/git/SensorDat/example/williams_lake.jsonld')
 wl.run()
 del wl
+
+### HRWC Nodes
+
+print('Golf Course @ Huron Hills')
+gch = Cookbook('/home/ubuntu/git/SensorDat/example/golf_course_huron.jsonld')
+gch.run()
+del gch
+
+print('Honey Creek @ Dexter')
+hcd = Cookbook('/home/ubuntu/git/SensorDat/example/honey_creek_dexter.jsonld')
+hcd.run()
+del hcd
+
+print('Kaiser South')
+ks = Cookbook('/home/ubuntu/git/SensorDat/example/kaiser_south.jsonld')
+ks.run()
+del ks
+
+print('Kensington Woods')
+kw = Cookbook('/home/ubuntu/git/SensorDat/example/kensington_woods.jsonld')
+kw.run()
+del kw
+
+print('Kirkway')
+kirk = Cookbook('/home/ubuntu/git/SensorDat/example/kirkway.jsonld')
+kirk.run()
+del kirk
+
+print('Scio Township Hall')
+sth = Cookbook('/home/ubuntu/git/SensorDat/example/scio_township_hall.jsonld')
+sth.run()
+del sth
