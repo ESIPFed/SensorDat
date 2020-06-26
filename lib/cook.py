@@ -418,3 +418,40 @@ print('Scio Township Hall')
 sth = Cookbook('/home/ubuntu/git/SensorDat/example/scio_township_hall.jsonld')
 sth.run()
 del sth
+
+### DET Nodes
+
+print('Harper / Wellington')
+hw = Cookbook('/home/ubuntu/git/SensorDat/example/harper_wellington.jsonld')
+hw.run()
+del hw
+
+print('Romeo / Partridge')
+rp = Cookbook('/home/ubuntu/git/SensorDat/example/romeo_partridge.jsonld')
+rp.run()
+del rp
+
+print('Deneweth / 22 Mile')
+d22m = Cookbook('/home/ubuntu/git/SensorDat/example/deneweth_22_mile.jsonld')
+d22m.run()
+del d22m
+
+print('Romeo / 23 Mile')
+r23m = Cookbook('/home/ubuntu/git/SensorDat/example/romeo_23_mile.jsonld')
+r23m.run()
+del r23m
+
+print('Indian / 26 Mile')
+i26m = Cookbook('/home/ubuntu/git/SensorDat/example/indian_26_mile.jsonld')
+i26m.run()
+del i26m
+
+print('Van Dyke / 25 Mile')
+v25m = Cookbook('/home/ubuntu/git/SensorDat/example/van_dyke_25_mile.jsonld')
+v25m.run()
+del v25m
+
+print('Blue Ridge / Scotch Pine')
+brsp = Cookbook('/home/ubuntu/git/SensorDat/example/blue_ridge_scotch_pine.jsonld')
+brsp.run()
+del brsp
