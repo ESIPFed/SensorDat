@@ -257,7 +257,7 @@ class Cookbook():
                     arg = self.parse_datasource(arg)
                 elif re.search(self.year_re, arg):
                     try:
-                        arg = pd.to_datetime(arg).asm8
+                        arg = pd.to_datetime(arg).tz_localize('UTC')#.asm8
                     except:
                         pass
             out_args.append(arg)
@@ -316,7 +316,7 @@ class Cookbook():
                     arg = self.parse_datasource(arg)
                 elif re.search(self.year_re, arg):
                     try:
-                        arg = pd.to_datetime(arg).asm8
+                        arg = pd.to_datetime(arg).tz_localize('UTC')#.asm8
                     except:
                         pass
             args.append(arg)
